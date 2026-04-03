@@ -1,2 +1,39 @@
 = Hypospray: A CDI Lite compatible dependency injection framework.
 
+Hypospray is an opinionanted modulare and lightweight DI framework that targets compatibility with CDI Lite.
+
+== Features
+
+ * Fully modular, only use the features you need.
+ * Compatbile with JLink, build a runtime image of an application using Hypospray.
+ * Only a single external dependency at runtime (currently only JSpecify, the target is to get rid of this once project Valhalla lands)
+
+== Usage
+
+To use Hypospray, first include the necessary dependencies in your build configuration. The recommended way is to depend on Hypospray's Lite module, which includes all the required dependencies for CDI Lite compatibility.
+
+[source,maven]
+----
+<dependency>
+  <groupId>eu.jbeernink.hypospray</groupId>
+  <artifactId>eu.jbeernink.hypospray.lite</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
+----
+
+Then, at the start of your application, initialize the container using the `jakarta.enterprise.inject.se.SeContainerInitializer` class:
+
+[source,java]
+----
+try (SeContainer container = SeContainerInitializer.newInstance().initialize()) {
+	// Use container to lookup any dependencies.
+}
+----
+
+== Semantic versioning
+
+=== Public API
+
+Hypospray aims to have a minimal public API. Where possible, the only public API is the CDI API. In the cases that Hypospray does need to expose an additional API publicly, this will be indicated in the module descriptor of that submodule by unconditional export of a package. Any package not explicitly exported unconditionally is considered part of the private API which is unsupported and can change between minor revisions.
+
+
