@@ -10,6 +10,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>annotation</module>
+		<module>arquillian</module>
 		<module>codegeneration</module>
 		<module>compile</module>
 		<module>core</module>
