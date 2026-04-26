@@ -15,6 +15,7 @@ import org.jspecify.annotations.Nullable;
 
 import eu.jbeernink.hypospray.model.information.lazy.LazilyResolvedClassInformation;
 import eu.jbeernink.hypospray.model.information.reflection.ReflectiveClassInformation;
+import eu.jbeernink.hypospray.model.information.synthetic.SyntheticClassInformation;
 import eu.jbeernink.hypospray.model.types.TypeInstance;
 import eu.jbeernink.hypospray.model.types.TypeVariableInstance;
 
@@ -27,7 +28,7 @@ import eu.jbeernink.hypospray.model.types.TypeVariableInstance;
 ///
 /// @param <T> the generic type represented by the class.
 public sealed interface ClassInformation<T> extends ClassInfo, AnnotatedDeclaration, TypeVariableOwner permits
-		LazilyResolvedClassInformation, ReflectiveClassInformation {
+		SyntheticClassInformation, LazilyResolvedClassInformation, ReflectiveClassInformation {
 
 	/// Returns the class represented by this [ClassInformation].
 	///
