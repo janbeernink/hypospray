@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jspecify.annotations.Nullable;
 
+import eu.jbeernink.hypospray.model.TypeFactory;
 import eu.jbeernink.hypospray.model.information.AnnotationInformation;
 import eu.jbeernink.hypospray.model.information.ClassInformation;
 import eu.jbeernink.hypospray.model.information.ConstructorInformation;
@@ -14,11 +15,19 @@ import eu.jbeernink.hypospray.model.information.RecordComponentInformation;
 import eu.jbeernink.hypospray.model.types.TypeInstance;
 import eu.jbeernink.hypospray.model.types.TypeVariableInstance;
 
-public record SyntheticClassInformation<T>(PackageInformation packageInformation, String simpleName, ClassInformation<? super T> superClassDeclaration) implements ClassInformation<T> {
+public record SyntheticClassInformation<T>(PackageInformation packageInformation, String simpleName,
+                                           @Nullable ClassInformation<? super T> superClassDeclaration) implements
+		ClassInformation<T> {
 
 	@Override
 	public Class<T> classInstance() {
-		throw new UnsupportedOperationException("Not yet implemented.");
+		String name = name();
+		try {
+			@SuppressWarnings("unchecked") Class<T> classInstance = (Class<T>) Class.forName(name);
+			return classInstance;
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("Unable to load class: %s.".formatted(name), e);
+		}
 	}
 
 	@Override
@@ -28,37 +37,40 @@ public record SyntheticClassInformation<T>(PackageInformation packageInformation
 
 	@Override
 	public @Nullable TypeInstance superClass() {
-		return null;
+		if (superClassDeclaration == null) {
+			return null;
+		}
+		return superClassDeclaration.asType();
 	}
 
 	@Override
 	public boolean isEnum() {
-		return false;
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public boolean isAnnotation() {
-		return false;
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public boolean isRecord() {
-		return false;
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public int modifiers() {
-		return 0;
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<TypeInstance> superInterfaceTypes() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<ClassInformation<?>> superInterfaceInformation() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
@@ -68,41 +80,41 @@ public record SyntheticClassInformation<T>(PackageInformation packageInformation
 
 	@Override
 	public @Nullable PackageInformation packageInfo() {
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<MethodInformation> methodInformation() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<MethodInformation> allMethods() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<ConstructorInformation<T>> constructorInformation() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<FieldInformation> fieldInformation() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public List<RecordComponentInformation<T>> recordComponentInformation() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 	@Override
 	public TypeInstance asType() {
-		return null;
+		return TypeFactory.getInstance().ofClass(this);
 	}
 
 	@Override
 	public List<AnnotationInformation> annotationInformation() {
-		return List.of();
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 }

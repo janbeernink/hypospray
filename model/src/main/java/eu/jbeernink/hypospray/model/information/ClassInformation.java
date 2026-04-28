@@ -34,8 +34,6 @@ public sealed interface ClassInformation<T> extends ClassInfo, AnnotatedDeclarat
 	///
 	/// This method can only be called if reflection is available for the class represented by this instance at runtime.
 	/// If reflection is not available at runtime, an exception will be thrown.
-	@Deprecated
-	// TODO: #53 - Remove methods directly depending on reflection.
 	Class<T> classInstance();
 
 	/// Returns the number of type parameters defined on the class represented by this [ClassInformation].
