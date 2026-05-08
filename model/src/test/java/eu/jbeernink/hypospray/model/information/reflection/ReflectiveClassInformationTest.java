@@ -85,6 +85,16 @@ class ReflectiveClassInformationTest {
 
 	private final TypeFactory typeFactory = TypeFactory.getInstance();
 
+	@Test
+	@DisplayName("toString() returns the class name.")
+	void toString_returnsClassName() {
+		var classInformation = new ReflectiveClassInformation<>(String.class);
+
+		String string = classInformation.toString();
+
+		assertEquals("java.lang.String", string);
+	}
+
 	@Nested
 	@DisplayName("with static concrete class")
 	class WithConcreteClass {

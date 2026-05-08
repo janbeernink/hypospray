@@ -198,6 +198,11 @@ public record ReflectiveClassInformation<T>(Class<T> classInstance) implements C
 	}
 
 	@Override
+	public String toString() {
+		return name();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		return switch (obj) {
 			case ClassInformation<?> other -> Objects.equals(name(), other.name());

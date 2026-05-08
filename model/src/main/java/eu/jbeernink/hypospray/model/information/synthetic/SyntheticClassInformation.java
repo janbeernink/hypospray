@@ -1,5 +1,11 @@
 package eu.jbeernink.hypospray.model.information.synthetic;
 
+import static eu.jbeernink.hypospray.model.information.ClassKind.ANNOTATION;
+import static eu.jbeernink.hypospray.model.information.ClassKind.ENUM;
+import static eu.jbeernink.hypospray.model.information.ClassKind.INTERFACE;
+import static eu.jbeernink.hypospray.model.information.ClassKind.PLAIN_CLASS;
+import static eu.jbeernink.hypospray.model.information.ClassKind.RECORD;
+
 import java.util.List;
 
 import org.jspecify.annotations.Nullable;
@@ -7,6 +13,7 @@ import org.jspecify.annotations.Nullable;
 import eu.jbeernink.hypospray.model.TypeFactory;
 import eu.jbeernink.hypospray.model.information.AnnotationInformation;
 import eu.jbeernink.hypospray.model.information.ClassInformation;
+import eu.jbeernink.hypospray.model.information.ClassKind;
 import eu.jbeernink.hypospray.model.information.ConstructorInformation;
 import eu.jbeernink.hypospray.model.information.FieldInformation;
 import eu.jbeernink.hypospray.model.information.MethodInformation;
@@ -16,8 +23,13 @@ import eu.jbeernink.hypospray.model.types.TypeInstance;
 import eu.jbeernink.hypospray.model.types.TypeVariableInstance;
 
 public record SyntheticClassInformation<T>(PackageInformation packageInformation, String simpleName,
-                                           @Nullable ClassInformation<? super T> superClassDeclaration) implements
+                                           @Nullable ClassInformation<? super T> superClassDeclaration, List<ClassInformation<?>> superInterfaceInformation,
+                                           ClassKind classKind) implements
 		ClassInformation<T> {
+
+	public SyntheticClassInformation {
+		superInterfaceInformation = List.copyOf(superInterfaceInformation);
+	}
 
 	@Override
 	public Class<T> classInstance() {
@@ -43,19 +55,28 @@ public record SyntheticClassInformation<T>(PackageInformation packageInformation
 		return superClassDeclaration.asType();
 	}
 
+	public boolean isPlainClass() {
+		return classKind.equals(PLAIN_CLASS);
+	}
+
+	@Override
+	public boolean isInterface() {
+		return classKind().equals(INTERFACE);
+	}
+
 	@Override
 	public boolean isEnum() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return classKind.equals(ENUM);
 	}
 
 	@Override
 	public boolean isAnnotation() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return classKind.equals(ANNOTATION);
 	}
 
 	@Override
 	public boolean isRecord() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return classKind.equals(RECORD);
 	}
 
 	@Override
@@ -65,11 +86,6 @@ public record SyntheticClassInformation<T>(PackageInformation packageInformation
 
 	@Override
 	public List<TypeInstance> superInterfaceTypes() {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-
-	@Override
-	public List<ClassInformation<?>> superInterfaceInformation() {
 		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
@@ -116,5 +132,10 @@ public record SyntheticClassInformation<T>(PackageInformation packageInformation
 	@Override
 	public List<AnnotationInformation> annotationInformation() {
 		throw new UnsupportedOperationException("Not implemented yet.");
+	}
+
+	@Override
+	public String toString() {
+		return name();
 	}
 }

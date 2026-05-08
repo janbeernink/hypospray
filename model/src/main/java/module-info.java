@@ -28,6 +28,7 @@ module eu.jbeernink.hypospray.model {
 	exports eu.jbeernink.hypospray.model.types to eu.jbeernink.hypospray.core, eu.jbeernink.hypospray.codegeneration.generator, eu.jbeernink.hypospray.codegeneration.classfile, eu.jbeernink.hypospray.codegeneration.testing;
 	exports eu.jbeernink.hypospray.model.types.reflection to eu.jbeernink.hypospray.core;
 	exports eu.jbeernink.hypospray.model.reference to eu.jbeernink.hypospray.core;
+	exports eu.jbeernink.hypospray.model.information.builder to eu.jbeernink.hypospray.core;
 	exports eu.jbeernink.hypospray.model.information.synthetic.builder to eu.jbeernink.hypospray.core;
 
 	uses ClassInformationSource;
