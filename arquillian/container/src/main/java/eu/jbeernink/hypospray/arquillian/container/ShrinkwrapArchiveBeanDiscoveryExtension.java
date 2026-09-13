@@ -10,12 +10,13 @@ import jakarta.enterprise.inject.build.compatible.spi.ScannedClasses;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Node;
+import org.jboss.shrinkwrap.api.asset.ClassAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 /// Build compatible extension that performs bean discover in Shrinkwrap {@link JavaArchive} instances.
 public class ShrinkwrapArchiveBeanDiscoveryExtension implements BuildCompatibleExtension {
 
-	private static final Logger logger =  System.getLogger(ShrinkwrapArchiveBeanDiscoveryExtension.class.getName());
+	private static final Logger logger = System.getLogger(ShrinkwrapArchiveBeanDiscoveryExtension.class.getName());
 
 	@Discovery
 	public void discoverBeans(ScannedClasses scannedClasses) {
@@ -26,8 +27,17 @@ public class ShrinkwrapArchiveBeanDiscoveryExtension implements BuildCompatibleE
 		}
 
 		Map<ArchivePath, Node> content = javaArchive.getContent();
-		Map<ArchivePath, Node> content1 = javaArchive.getContent(path -> path.get().endsWith(".class"));
-		content.containsKey("/META-INF/beans.xml");
-		content1.forEach((path , node) -> System.out.println(path + ": " + node));
+		Map<ArchivePath, Node> classes = javaArchive.getContent(path -> path.get().endsWith(".class"));
+
+		javaArchive.getContent()
+		           .values()
+		           .stream()
+		           .map(Node::getAsset)
+		           .filter(asset -> asset instanceof ClassAsset)
+		           .map(asset -> (ClassAsset) asset)
+		           .map(ClassAsset::getSource)
+		           .map(Class::getName)
+		           .forEach(scannedClasses::add);
+
 	}
 }
