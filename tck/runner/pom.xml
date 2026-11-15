@@ -81,7 +81,7 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>${project.build.testOutputDirectory}/tck-tests.xml</suiteXmlFile>
 					</suiteXmlFiles>
-					<groups>se</groups>
+					<groups>se,arquillian</groups>
 					<systemPropertyVariables>
 						<org.jboss.cdi.tck.spi.Beans>eu.jbeernink.hypospray.tck.support.BeanSupport</org.jboss.cdi.tck.spi.Beans>
 						<org.jboss.cdi.tck.spi.Contexts>eu.jbeernink.hypospray.tck.support.ContextSupport</org.jboss.cdi.tck.spi.Contexts>
