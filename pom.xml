@@ -20,6 +20,7 @@
 		<module>integration</module>
 		<module>lite</module>
 		<module>scope</module>
+		<module>tck</module>
 		<module>testing</module>
 		<module>util</module>
 		<module>xml</module>
@@ -70,6 +71,18 @@
 			<dependency>
 				<groupId>jakarta.enterprise</groupId>
 				<artifactId>cdi-tck-lang-model</artifactId>
+				<version>${cdi.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>jakarta.enterprise</groupId>
+				<artifactId>cdi-tck-api</artifactId>
+				<version>${cdi.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>jakarta.enterprise</groupId>
+				<artifactId>cdi-tck-core-impl</artifactId>
 				<version>${cdi.version}</version>
 			</dependency>
 

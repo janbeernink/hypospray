@@ -41,8 +41,7 @@ public class RequestContext implements AlterableContext {
 	public boolean isActive() {
 		return getCurrentRequestId().isPresent();
 	}
-
-
+	
 	public void destroyScope(RequestId requestId) {
 		scopedInstanceManager.destroyScope(requestId);
 	}

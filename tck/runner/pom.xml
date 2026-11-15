@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.jbeernink.hypospray</groupId>
+		<artifactId>eu.jbeernink.hypospray.tck</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<groupId>eu.jbeernink.hypospray.tck</groupId>
+	<artifactId>eu.jbeernink.hypospray.tck.runner</artifactId>
+	<version>${revision}</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>eu.jbeernink.hypospray.tck</groupId>
+			<artifactId>eu.jbeernink.hypospray.tck.support</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.jbeernink.hypospray.arquillian</groupId>
+			<artifactId>eu.jbeernink.hypospray.arquillian.container</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.enterprise</groupId>
+			<artifactId>cdi-tck-core-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.testng</groupId>
+			<artifactId>arquillian-testng-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.12.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.11.0</version>
+				<executions>
+					<execution>
+						<id>unpack-tck-tests</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>jakarta.enterprise</groupId>
+									<artifactId>cdi-tck-core-impl</artifactId>
+									<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>${project.build.testOutputDirectory}/tck-tests.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<groups>se</groups>
+					<systemPropertyVariables>
+						<org.jboss.cdi.tck.spi.Beans>eu.jbeernink.hypospray.tck.support.BeanSupport</org.jboss.cdi.tck.spi.Beans>
+						<org.jboss.cdi.tck.spi.Contexts>eu.jbeernink.hypospray.tck.support.ContextSupport</org.jboss.cdi.tck.spi.Contexts>
+						<org.jboss.cdi.tck.spi.Contextuals>eu.jbeernink.hypospray.tck.support.ContextualSupport</org.jboss.cdi.tck.spi.Contextuals>
+						<org.jboss.cdi.tck.spi.CreationalContexts>eu.jbeernink.hypospray.tck.support.CreationalContextSupport</org.jboss.cdi.tck.spi.CreationalContexts>
+						<org.jboss.cdi.tck.spi.EL>eu.jbeernink.hypospray.tck.support.ElSupport</org.jboss.cdi.tck.spi.EL>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
