@@ -78,9 +78,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>${project.build.testOutputDirectory}/tck-tests.xml</suiteXmlFile>
-					</suiteXmlFiles>
 					<groups>se,arquillian</groups>
 					<systemPropertyVariables>
 						<org.jboss.cdi.tck.spi.Beans>eu.jbeernink.hypospray.tck.support.BeanSupport</org.jboss.cdi.tck.spi.Beans>
