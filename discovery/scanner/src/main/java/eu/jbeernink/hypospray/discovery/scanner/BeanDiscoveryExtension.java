@@ -183,6 +183,7 @@ public class BeanDiscoveryExtension implements BuildCompatibleExtension {
 	private static Stream<ModuleReference> getRuntimeModules() {
 		return Stream.of(System.getProperty("jdk.module.path"), System.getProperty("java.class.path"))
 		             .filter(path -> path != null && !path.isBlank())
+		             .filter(path -> Path.of(path).getFileName().startsWith("arquillian")) // TODO #51 temporary workaround for Arquillian issues with ModuleFinder.
 		             .flatMap(BeanDiscoveryExtension::getModulesFromPath);
 	}
 
