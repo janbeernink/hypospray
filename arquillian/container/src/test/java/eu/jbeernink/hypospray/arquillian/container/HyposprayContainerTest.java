@@ -8,6 +8,7 @@ import jakarta.enterprise.inject.spi.CDI;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit5.container.annotation.ArquillianTest;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,7 @@ class HyposprayContainerTest {
 
 	@Deployment
 	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class).addClass(TestBean.class);
+		return ShrinkWrap.create(JavaArchive.class).addClass(TestBean.class).add(EmptyAsset.INSTANCE, "META-INF/beans.xml");
 	}
 
 	@Test
