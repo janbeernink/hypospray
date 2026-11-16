@@ -80,6 +80,8 @@
 				<configuration>
 					<groups>se,arquillian</groups>
 					<systemPropertyVariables>
+						<arquillian.launch>default</arquillian.launch>
+						<arq.container.default.configuration.startContainer>false</arq.container.default.configuration.startContainer>
 						<org.jboss.cdi.tck.spi.Beans>eu.jbeernink.hypospray.tck.support.BeanSupport</org.jboss.cdi.tck.spi.Beans>
 						<org.jboss.cdi.tck.spi.Contexts>eu.jbeernink.hypospray.tck.support.ContextSupport</org.jboss.cdi.tck.spi.Contexts>
 						<org.jboss.cdi.tck.spi.Contextuals>eu.jbeernink.hypospray.tck.support.ContextualSupport</org.jboss.cdi.tck.spi.Contextuals>
