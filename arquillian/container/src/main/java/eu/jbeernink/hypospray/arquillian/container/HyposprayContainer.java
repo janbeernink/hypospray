@@ -33,7 +33,6 @@ public final class HyposprayContainer implements DeployableContainer<HyposprayCo
 	private static final Logger logger = System.getLogger(HyposprayContainer.class.getName());
 
 	private HyposprayContainerConfiguration configuration;
-	private final TestArchiveManager testArchiveManager = new TestArchiveManager();
 	private SeContainer container;
 	private Path testDirectory;
 
