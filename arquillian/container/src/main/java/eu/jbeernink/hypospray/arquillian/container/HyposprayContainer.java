@@ -9,6 +9,7 @@ import jakarta.enterprise.inject.se.SeContainerInitializer;
 
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
+import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.shrinkwrap.api.Archive;
@@ -37,10 +38,13 @@ public final class HyposprayContainer implements DeployableContainer<HyposprayCo
 		}
 
 		TestArchiveManager.getInstance().setTestArchive(archive);
-		container = SeContainerInitializer.newInstance().disableDiscovery().initialize();
 
-		ProtocolMetaData protocolMetaData = new ProtocolMetaData();
-		return protocolMetaData;
+		return new ProtocolMetaData();
+	}
+
+	@Override
+	public void start() throws LifecycleException {
+		container = SeContainerInitializer.newInstance().disableDiscovery().initialize();
 	}
 
 	@Override
