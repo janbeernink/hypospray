@@ -9,7 +9,6 @@ import jakarta.enterprise.inject.se.SeContainerInitializer;
 
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
-import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.shrinkwrap.api.Archive;
@@ -18,6 +17,7 @@ public final class HyposprayContainer implements DeployableContainer<HyposprayCo
 
 	private static final Logger logger = System.getLogger(HyposprayContainer.class.getName());
 
+	private HyposprayContainerConfiguration configuration;
 	private final TestArchiveManager testArchiveManager = new TestArchiveManager();
 	private SeContainer container;
 
@@ -32,6 +32,11 @@ public final class HyposprayContainer implements DeployableContainer<HyposprayCo
 	}
 
 	@Override
+	public void setup(HyposprayContainerConfiguration configuration) {
+		this.configuration = configuration;
+	}
+
+	@Override
 	public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
 		if (container != null) {
 			throw new IllegalStateException("Hypospray container already running.");
@@ -39,12 +44,14 @@ public final class HyposprayContainer implements DeployableContainer<HyposprayCo
 
 		TestArchiveManager.getInstance().setTestArchive(archive);
 
-		return new ProtocolMetaData();
-	}
+		if (configuration.isStartContainer()) {
+			logger.log(INFO, "Booting Hypospray container.");
+			container = SeContainerInitializer.newInstance().disableDiscovery().initialize();
+		} else {
+			logger.log(INFO, "Skipped booting of Hypospray container due to configuration.");
+		}
 
-	@Override
-	public void start() throws LifecycleException {
-		container = SeContainerInitializer.newInstance().disableDiscovery().initialize();
+		return new ProtocolMetaData();
 	}
 
 	@Override
